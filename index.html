@@ -2,8 +2,10 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>ETF 策略模擬器 | 專家導讀版</title>
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js](https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js)"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETF 策略模擬器 | 最終加固版</title>
+    <!-- 使用更穩定的 cdnjs 加載 Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #eceff1; display: flex; justify-content: center; padding: 20px; }
         .container { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 1000px; }
@@ -17,23 +19,23 @@
         .val-tag { float: right; color: #00796b; font-weight: bold; }
         .result-panel { grid-column: span 2; text-align: center; margin-top: 10px; padding: 15px; background: #263238; color: white; border-radius: 10px; }
         .final-sum { font-size: 1.4em; color: #4db6ac; font-weight: bold; }
-        .strategy-box { margin-top: 20px; border-left: 5px solid #00796b; background: #f1f8f7; padding: 15px; border-radius: 5px; min-height: 80px; }
+        .strategy-box { margin-top: 20px; border-left: 5px solid #00796b; background: #f1f8f7; padding: 15px; border-radius: 5px; min-height: 80px; font-size: 0.95em; line-height: 1.6; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📊 ETF 投資模擬器</h1>
+        <h1>📊 ETF 全環境投資模擬器</h1>
         <div class="main-layout">
             <div class="controls">
                 <div class="control-item"><label>本金 (NT$): <span id="v1" class="val-tag"></span></label><input type="range" id="initSum" min="0" max="1000000" step="10000" value="100000"></div>
                 <div class="control-item"><label>每月投入 (NT$): <span id="v2" class="val-tag"></span></label><input type="range" id="monthly" min="0" max="100000" step="1000" value="3000"></div>
-                <div class="control-item"><label>預期報酬 (%): <span id="v3" class="val-tag"></span></label><input type="range" id="rate" min="1" max="15" step="0.5" value="5"></div>
+                <div class="control-item"><label>預期報酬 (%): <span id="v3" class="val-tag"></span></label><input type="range" id="rate" min="1" max="15" step="0.5" value="4"></div>
                 <div class="control-item"><label>投資年限 (年): <span id="v4" class="val-tag"></span></label><input type="range" id="years" min="1" max="40" step="1" value="5"></div>
-                <div class="control-item" style="background: #fff3e0;"><label>內扣費用 (%): <span id="v5" class="val-tag"></span></label><input type="range" id="cost" min="0" max="2.5" step="0.05" value="0.5"></div>
+                <div class="control-item" style="background: #fff3e0;"><label>內扣費用 (%): <span id="v5" class="val-tag"></span></label><input type="range" id="cost" min="0" max="2.5" step="0.05" value="0.65"></div>
                 <div class="control-item" style="background: #fff3e0;"><label>通貨膨脹 (%): <span id="v6" class="val-tag"></span></label><input type="range" id="inflation" min="0" max="5" step="0.1" value="2"></div>
                 <div class="result-panel">
                     帳面總資產：<span id="finalTotal" class="final-sum"></span><br>
-                    <small>實質購買力：<span id="realPower" style="color:#ffab91"></span></small>
+                    <small>實質購買力 (考慮通膨後)：<span id="realPower" style="color:#ffab91"></span></small>
                 </div>
             </div>
             <div class="chart-container"><canvas id="myChart"></canvas></div>
@@ -42,11 +44,10 @@
     </div>
 
     <script>
-        const ctx = document.getElementById('myChart').getContext('2d');
         let myChart;
 
-    window.onload = function() {
         function update() {
+            // 獲取數值
             const initSum = parseInt(document.getElementById('initSum').value);
             const monthly = parseInt(document.getElementById('monthly').value);
             const rawRate = parseFloat(document.getElementById('rate').value);
@@ -54,9 +55,10 @@
             const rawInf = parseFloat(document.getElementById('inflation').value);
             const years = parseInt(document.getElementById('years').value);
             
+            // 計算利率
             const netRate = (rawRate - rawCost) / 100 / 12;
-            const infRate = rawInf / 100 / 12;
 
+            // 更新 UI 標籤
             document.getElementById('v1').innerText = initSum.toLocaleString();
             document.getElementById('v2').innerText = monthly.toLocaleString();
             document.getElementById('v3').innerText = rawRate + '%';
@@ -72,7 +74,9 @@
             for (let i = 0; i <= years; i++) {
                 labels.push('第' + i + '年');
                 nominalData.push(Math.round(currentNominal));
+                // 實質購買力計算：分母為 (1 + 年通膨率)^年數
                 realData.push(Math.round(currentNominal / Math.pow(1 + rawInf/100, i)));
+                
                 for (let m = 0; m < 12; m++) {
                     currentNominal = (currentNominal + monthly) * (1 + netRate);
                 }
@@ -81,12 +85,12 @@
             document.getElementById('finalTotal').innerText = 'NT$ ' + nominalData[nominalData.length-1].toLocaleString();
             document.getElementById('realPower').innerText = 'NT$ ' + realData[realData.length-1].toLocaleString();
 
-            // --- 細緻化導讀邏輯 ---
+            // 專家導讀邏輯
             let insight = "<b>[策略診斷報告]</b><br>";
             const realReturn = rawRate - rawCost - rawInf;
 
-            if (rawCost > 1.2) insight += "❌ <b>費用黑洞：</b>您的內扣費用過高，將吞噬約 1/4 的潛在財富。<br>";
-            else if (rawCost < 0.4) insight += "✅ <b>低摩擦運行：</b>費用極低，複利引擎運作效率極高。<br>";
+            if (rawCost > 1.2) insight += "❌ <b>費用黑洞：</b>您的內扣費用過高，將吞噬大量的潛在財富。<br>";
+            else if (rawCost < 0.4) insight += "✅ <b>低摩擦運行：</b>費用極低，複利引擎運作效率極佳。<br>";
 
             if (realReturn <= 0) insight += "⚠️ <b>購買力警報：</b>報酬率跑輸通膨與成本，您的錢正在悄悄縮水！<br>";
             else if (realReturn < 3) insight += "💡 <b>增長遲緩：</b>實質增長僅 " + realReturn.toFixed(1) + "%，需增加本金或優化標的。<br>";
@@ -96,23 +100,31 @@
 
             document.getElementById('insight').innerHTML = insight;
 
+            // 更新圖表
+            const ctx = document.getElementById('myChart').getContext('2d');
             if (myChart) myChart.destroy();
             myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [
-                        { label: '帳面金額', data: nominalData, borderColor: '#00796b', fill: false, tension: 0.2 },
+                        { label: '帳面金額 (稅後)', data: nominalData, borderColor: '#00796b', backgroundColor: 'rgba(0,121,107,0.1)', fill: true, tension: 0.2 },
                         { label: '實質購買力', data: realData, borderColor: '#ff8a65', borderDash: [5, 5], fill: false, tension: 0.2 }
                     ]
                 },
-                options: { responsive: true, maintainAspectRatio: false }
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' } }
+                }
             });
         }
 
-        document.querySelectorAll('input').forEach(i => i.addEventListener('input', update));
-        update();
-    };
+        // 確保網頁與資源完全加載後才執行第一次 update
+        window.onload = function() {
+            update();
+            document.querySelectorAll('input').forEach(i => i.addEventListener('input', update));
+        };
     </script>
 </body>
 </html>
