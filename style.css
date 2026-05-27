@@ -9,10 +9,8 @@
   --border: #E8E2D8;
   --shadow: 0 4px 24px rgba(26,22,18,0.09);
   --radius: 22px;
-  --radius-sm: 12px;
 }
 
-/* Dark Mode */
 body.dark {
   --bg: #1A1612;
   --surface: #2A2520;
@@ -35,16 +33,17 @@ body {
   line-height: 1.75;
 }
 
-h1, h2, h3 {
+h1, h2 {
   font-family: 'Noto Serif TC', serif;
   font-weight: 700;
+  color: var(--ink);
 }
 
-/* HEADER */
+/* HEADER - 強制高對比 */
 .header {
   background: var(--ink);
   color: #FAF7F2;
-  padding: 26px 32px;
+  padding: 28px 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -54,14 +53,26 @@ h1, h2, h3 {
   border-bottom: 3px solid var(--accent);
 }
 
+body.dark .header {
+  color: #FAF7F2 !important;   /* 強制最亮米白色 */
+}
+
 .logo {
   font-family: 'DM Serif Display', serif;
-  font-size: 1.75rem;
+  font-size: 1.85rem;
   letter-spacing: 0.02em;
 }
 
-.logo span { color: var(--accent); font-style: italic; }
+.logo span {
+  color: var(--accent);
+  font-style: italic;
+}
 
+body.dark .logo {
+  color: #FAF7F2 !important;
+}
+
+/* Theme Button */
 .theme-btn {
   width: 48px;
   height: 48px;
@@ -74,13 +85,16 @@ h1, h2, h3 {
   transition: 0.3s;
 }
 
-.theme-btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.05); }
+.theme-btn:hover {
+  background: rgba(255,255,255,0.25);
+  transform: scale(1.05);
+}
 
 /* HERO */
 .hero {
   max-width: 880px;
   margin: 0 auto;
-  padding: 110px 24px 80px;
+  padding: 100px 24px 80px;
   text-align: center;
 }
 
@@ -105,7 +119,7 @@ h1, h2, h3 {
   margin: 0 auto;
 }
 
-/* CONTAINER */
+/* CARDS */
 .container {
   max-width: 1160px;
   margin: 0 auto;
@@ -115,7 +129,6 @@ h1, h2, h3 {
   gap: 28px;
 }
 
-/* CATEGORY CARD */
 .category-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -129,15 +142,13 @@ h1, h2, h3 {
 }
 
 .category-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-8px);
   border-color: var(--accent);
-  box-shadow: 0 16px 40px rgba(200,98,42,0.14);
 }
 
 .card-icon {
-  font-size: 3.2rem;
+  font-size: 2.5rem;
   margin-bottom: 16px;
-  line-height: 1;
 }
 
 .category-label {
@@ -159,7 +170,6 @@ h1, h2, h3 {
   flex-grow: 1;
 }
 
-/* Subtopics */
 .subtopics {
   display: flex;
   flex-wrap: wrap;
@@ -173,10 +183,9 @@ h1, h2, h3 {
   padding: 9px 18px;
   border-radius: 999px;
   font-size: 0.88rem;
-  border: 1px solid var(--accent-light);
 }
 
-/* Button */
+/* ENTER BUTTON - 深色模式強制修正 */
 .enter-btn {
   background: var(--ink);
   color: white;
@@ -188,6 +197,7 @@ h1, h2, h3 {
   transition: all 0.3s;
   margin-top: auto;
   align-self: flex-start;
+  border: none;
 }
 
 .enter-btn:hover {
@@ -195,17 +205,15 @@ h1, h2, h3 {
   transform: translateY(-3px);
 }
 
-/* FOOTER */
-.footer {
-  padding: 80px 24px 60px;
-  text-align: center;
-  border-top: 1px solid var(--border);
+body.dark .enter-btn {
+  background: #F5F0E8 !important;
+  color: #1A1612 !important;
+  font-weight: 600;
 }
 
-.footer-sub {
-  color: var(--ink-muted);
-  margin-top: 8px;
-  font-size: 0.92rem;
+body.dark .enter-btn:hover {
+  background: var(--accent) !important;
+  color: white !important;
 }
 
 /* Responsive */
@@ -213,10 +221,10 @@ h1, h2, h3 {
   .hero { padding: 80px 20px 60px; }
   .hero-title { font-size: 2.9rem; }
   .category-card { padding: 32px 28px; }
+  .card-icon { font-size: 2.2rem; }
 }
 
 @media (max-width: 480px) {
   .header { padding: 20px 18px; }
-  .hero-title { font-size: 2.5rem; }
-  .container { padding: 0 16px 60px; gap: 20px; }
+  .logo { font-size: 1.6rem; }
 }
