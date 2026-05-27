@@ -1,447 +1,169 @@
-/* ========================= */
-/* style.css */
-/* ========================= */
-
 :root {
-
   --bg: #FAF7F2;
   --surface: #FFFFFF;
-
-  --text: #1A1612;
-  --text-light: #6B6560;
-
+  --ink: #1A1612;
+  --ink-muted: #6B6560;
   --accent: #C8622A;
-  --accent-soft: #F4E6DD;
-
-  --border: #E7DED2;
-
-  --shadow:
-    0 4px 20px rgba(0,0,0,0.06);
-
+  --accent-light: #F2E6DC;
+  --accent-pale: #FDF6F0;
+  --border: #E8E2D8;
+  --shadow: 0 4px 20px rgba(26,22,18,0.09);
+  --radius: 20px;
+  --radius-sm: 12px;
 }
-
-/* ========================= */
-/* Dark Mode */
-/* ========================= */
 
 body.dark {
-
-  --bg: #111111;
-  --surface: #1B1B1B;
-
-  --text: #F5F2ED;
-  --text-light: #A5A19C;
-
+  --bg: #1A1612;
+  --surface: #2A2520;
+  --ink: #F5F0E8;
+  --ink-muted: #A89F95;
   --accent: #E07A3F;
-  --accent-soft: #2A1D16;
-
-  --border: #2C2C2C;
-
-  --shadow:
-    0 4px 20px rgba(0,0,0,0.25);
-
+  --accent-light: #3F2A1F;
+  --accent-pale: #2A211A;
+  --border: #3F3730;
+  --shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 
-/* ========================= */
 /* Global */
-/* ========================= */
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 body {
-
+  font-family: 'Noto Sans TC', system-ui, sans-serif;
   background: var(--bg);
-  color: var(--text);
-
-  font-family: 'Noto Sans TC', sans-serif;
-
-  transition:
-    background 0.3s,
-    color 0.3s;
-
-  line-height: 1.8;
+  color: var(--ink);
+  line-height: 1.75;
 }
 
-/* ========================= */
-/* Header */
-/* ========================= */
+h1, h2, h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+}
 
+/* Header - Match the finance course */
 .header {
-
+  background: var(--ink);
+  color: #FAF7F2;
+  padding: 24px 32px;
   position: sticky;
   top: 0;
-
-  z-index: 999;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  padding:
-    22px 32px;
-
-  background:
-    rgba(250,247,242,0.88);
-
-  backdrop-filter: blur(12px);
-
-  border-bottom:
-    1px solid var(--border);
-
-}
-
-body.dark .header {
-
-  background:
-    rgba(17,17,17,0.88);
-
+  z-index: 100;
+  border-bottom: 3px solid var(--accent);
+  backdrop-filter: none;
 }
 
 .logo {
-
-  font-family:
-    'DM Serif Display',
-    serif;
-
-  font-size: 1.6rem;
-
-  letter-spacing: 0.03em;
-
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.75rem;
+  letter-spacing: 0.02em;
 }
 
 .logo span {
-
   color: var(--accent);
-
+  font-style: italic;
 }
 
-.theme-btn {
-
-  border: none;
-
-  width: 44px;
-  height: 44px;
-
-  border-radius: 999px;
-
-  background: var(--surface);
-
-  cursor: pointer;
-
-  font-size: 1rem;
-
-  box-shadow: var(--shadow);
-
-  transition: 0.25s;
-
-}
-
-.theme-btn:hover {
-
-  transform: translateY(-2px);
-
-}
-
-/* ========================= */
-/* Hero */
-/* ========================= */
-
+/* Hero - More premium */
 .hero {
-
-  max-width: 900px;
-
+  padding: 120px 24px 90px;
+  text-align: center;
+  max-width: 860px;
   margin: 0 auto;
-
-  padding:
-    100px 24px 70px;
-
 }
 
 .hero-tag {
-
   color: var(--accent);
-
-  font-size: 0.78rem;
-
-  letter-spacing: 0.14em;
-
-  margin-bottom: 18px;
-
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  font-weight: 500;
+  margin-bottom: 16px;
 }
 
 .hero-title {
-
-  font-family:
-    'Noto Serif TC',
-    serif;
-
-  font-size: 4rem;
-
-  line-height: 1.2;
-
-  margin-bottom: 24px;
-
+  font-size: 3.8rem;
+  line-height: 1.15;
+  margin-bottom: 20px;
 }
 
 .hero-subtitle {
-
+  font-size: 1.15rem;
+  color: var(--ink-muted);
   max-width: 620px;
-
-  color: var(--text-light);
-
-  font-size: 1.05rem;
-
-}
-
-/* ========================= */
-/* Main */
-/* ========================= */
-
-.container {
-
-  max-width: 1100px;
-
   margin: 0 auto;
-
-  padding:
-    0 24px 80px;
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(auto-fit, minmax(320px, 1fr));
-
-  gap: 24px;
-
 }
 
-/* ========================= */
-/* Category Card */
-/* ========================= */
-
+/* Category Cards - Upgraded */
 .category-card {
-
   background: var(--surface);
-
-  border:
-    1px solid var(--border);
-
-  border-radius: 24px;
-
-  padding: 34px;
-
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px 36px;
   box-shadow: var(--shadow);
-
-  transition:
-    transform 0.25s,
-    border 0.25s,
-    background 0.25s;
-
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .category-card:hover {
-
-  transform: translateY(-6px);
-
+  transform: translateY(-8px);
   border-color: var(--accent);
-
+  box-shadow: 0 12px 32px rgba(200,98,42,0.12);
 }
 
 .category-label {
-
   color: var(--accent);
-
-  font-size: 0.74rem;
-
-  letter-spacing: 0.14em;
-
-  margin-bottom: 16px;
-
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  margin-bottom: 12px;
 }
 
 .category-card h2 {
-
-  font-family:
-    'Noto Serif TC',
-    serif;
-
-  font-size: 2rem;
-
-  margin-bottom: 16px;
-
+  font-size: 2.1rem;
+  margin-bottom: 14px;
 }
 
 .category-desc {
-
-  color: var(--text-light);
-
-  margin-bottom: 24px;
-
-  font-size: 0.96rem;
-
+  color: var(--ink-muted);
+  margin-bottom: 28px;
+  flex-grow: 1;
 }
 
-/* ========================= */
-/* Subtopics */
-/* ========================= */
-
+/* Subtopics - Pill style like finance course */
 .subtopics {
-
   display: flex;
-
   flex-wrap: wrap;
-
   gap: 10px;
-
-  margin-bottom: 30px;
-
+  margin-bottom: 32px;
 }
 
 .subtopic {
-
-  padding:
-    10px 14px;
-
-  border-radius: 999px;
-
-  background: var(--accent-soft);
-
+  background: var(--accent-pale);
   color: var(--accent);
-
-  font-size: 0.86rem;
-
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  border: 1px solid var(--accent-light);
 }
 
-/* ========================= */
-/* Buttons */
-/* ========================= */
-
+/* Button */
 .enter-btn {
-
-  border: none;
-
-  background: var(--text);
-
+  background: var(--ink);
   color: white;
-
-  padding:
-    14px 22px;
-
+  padding: 14px 28px;
   border-radius: 999px;
-
-  cursor: pointer;
-
-  font-size: 0.92rem;
-
-  transition: 0.25s;
-
+  font-weight: 500;
+  margin-top: auto;
+  align-self: flex-start;
+  transition: all 0.25s;
 }
 
 .enter-btn:hover {
-
   background: var(--accent);
-
   transform: translateY(-2px);
-
 }
 
-/* ========================= */
 /* Footer */
-/* ========================= */
-
 .footer {
-
-  padding:
-    60px 24px;
-
+  padding: 80px 24px 60px;
   text-align: center;
-
-  border-top:
-    1px solid var(--border);
-
-}
-
-.footer-sub {
-
-  color: var(--text-light);
-
-  margin-top: 10px;
-
-  font-size: 0.9rem;
-
-}
-
-/* ========================= */
-/* Responsive */
-/* ========================= */
-
-@media (max-width: 768px) {
-
-  .hero {
-
-    padding-top: 70px;
-
-  }
-
-  .hero-title {
-
-    font-size: 2.8rem;
-
-  }
-
-  .category-card {
-
-    padding: 28px;
-
-  }
-
-}
-
-@media (max-width: 480px) {
-
-  .header {
-
-    padding:
-      18px 18px;
-
-  }
-
-  .hero {
-
-    padding:
-      56px 18px 42px;
-
-  }
-
-  .hero-title {
-
-    font-size: 2.2rem;
-
-  }
-
-  .container {
-
-    padding:
-      0 18px 60px;
-
-  }
-
-  .category-card {
-
-    padding: 22px;
-
-    border-radius: 18px;
-
-  }
-
-  .category-card h2 {
-
-    font-size: 1.6rem;
-
-  }
-
+  border-top: 1px solid var(--border);
 }
